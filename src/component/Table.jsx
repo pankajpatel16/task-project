@@ -1,23 +1,11 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { registeredUsers } from "../data/staticData";
 import { FiDownload } from "react-icons/fi";
 import { Link } from "react-router";
 
 const Table = () => {
   const [query, setQuery] = useState("");
-  const [data, setdata] = useState([]);
-
-  async function registeredUsersdata() {
-    let response = await axios.get("http://localhost:8080/registeredUsers");
-    setdata(response.data);
-  }
-
-  useEffect(() => {
-    const fatchdata = async () => {
-      await registeredUsersdata();
-    };
-    fatchdata();
-  }, []);
+  const [data, setdata] = useState(registeredUsers);
 
   const filtered = data.filter((u) => {
     const q = query.trim().toLowerCase();
@@ -76,12 +64,12 @@ const Table = () => {
               <FiDownload />
               Export excel
             </button>
-          <Link
-            className="px-4 mt-1 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 mb-4 inline-block"
-            to="/referral"
-          >
-            Referral Dashboard
-          </Link>
+            <Link
+              className="px-4 mt-1 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 mb-4 inline-block"
+              to="/referral"
+            >
+              Referral Dashboard
+            </Link>
           </div>
         </div>
 

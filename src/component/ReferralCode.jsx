@@ -1,53 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CreateReferralModal from "./CreateReferralModal";
+import { referralCodes as initialReferralCodes } from "../data/staticData";
 
 const ReferralCode = () => {
-  const [referralCodes, setReferralCodes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [referralCodes, setReferralCodes] = useState(initialReferralCodes);
+  const [loading] = useState(false);
+  const [error] = useState(null);
   const [query, setQuery] = useState("");
   const [filterType, setFilterType] = useState("All Types");
   const [filterStatus, setFilterStatus] = useState("All Status");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleAddCode = async (newCode) => {
-    try {
-      const res = await fetch("http://localhost:8080/referralCodes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newCode),
-      });
-
-      if (!res.ok) throw new Error("Failed to create code");
-      const createdCode = await res.json();
-      setReferralCodes((prev) => [...prev, createdCode]);
-    } catch (err) {
-      console.error("Error creating referral code:", err);
-      alert("Failed to create referral code");
-    }
+  const handleAddCode = (newCode) => {
+    // Add the new code locally to static state
+    setReferralCodes((prev) => [
+      ...prev,
+      { id: Date.now().toString(36), ...newCode },
+    ]);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch("http://localhost:8080/referralCodes");
-        if (!res.ok) throw new Error("Failed to fetch");
-        const data = await res.json();
-        setReferralCodes(data);
-        setError(null);
-      } catch (err) {
-        console.error("Error fetching referral codes:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  // Data is static; no fetch required
 
   const filtered = referralCodes.filter((r) => {
     const q = query.trim().toLowerCase();
