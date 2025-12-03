@@ -1,4 +1,5 @@
-import Table from "../component/table";
+import { Link } from "react-router";
+import Table from "../component/Table";
 
 const RegisteredUsers = () => {
   return (

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FiDownload } from "react-icons/fi";
+import { Link } from "react-router";
 
 const Table = () => {
   const [query, setQuery] = useState("");
@@ -75,6 +76,12 @@ const Table = () => {
               <FiDownload />
               Export excel
             </button>
+          <Link
+            className="px-4 mt-1 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 mb-4 inline-block"
+            to="/referral"
+          >
+            Referral Dashboard
+          </Link>
           </div>
         </div>
 
