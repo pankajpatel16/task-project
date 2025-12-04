@@ -332,14 +332,4 @@ export const referralCodes = [
     created: "04/12/2025",
     id: "fd96",
   },
-  {
-    id: "85fa",
-    owner: "dgs",
-    email: "pankajpatel221175@gmail.com",
-    type: "Teacher",
-    max: "5",
-    amount: "1000",
-    code: "REF-1764747373222-2EJTLME0V",
-    created: "12/03/2025",
-  },
 ];

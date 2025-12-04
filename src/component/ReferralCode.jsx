@@ -3,7 +3,14 @@ import CreateReferralModal from "./CreateReferralModal";
 import { referralCodes as initialReferralCodes } from "../data/staticData";
 
 const ReferralCode = () => {
-  const [referralCodes, setReferralCodes] = useState(initialReferralCodes);
+  const [referralCodes, setReferralCodes] = useState(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem("referralCodes"));
+      return Array.isArray(stored) ? stored : initialReferralCodes;
+    } catch (e) {
+      return e.initialReferralCodes;
+    }
+  });
   const [loading] = useState(false);
   const [error] = useState(null);
   const [query, setQuery] = useState("");
@@ -12,14 +19,21 @@ const ReferralCode = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAddCode = (newCode) => {
-    // Add the new code locally to static state
-    setReferralCodes((prev) => [
-      ...prev,
-      { id: Date.now().toString(36), ...newCode },
-    ]);
+    setReferralCodes((prev = []) => {
+      const next = Array.isArray(prev) ? [newCode, ...prev] : [newCode];
+      try {
+        localStorage.setItem("referralCodes", JSON.stringify(next));
+      } catch (e) {
+        console.error(e);
+      }
+      return next;
+    });
   };
 
-  // Data is static; no fetch required
+  //   setReferralCodes((prev) => [
+  //     ...prev,
+  //     { id: Date.now().toString(36), ...newCode },
+  //   ]);
 
   const filtered = referralCodes.filter((r) => {
     const q = query.trim().toLowerCase();

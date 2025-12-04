@@ -4,8 +4,8 @@ const initialState = {
   owner: "",
   email: "",
   type: "Teacher",
-  max: "5",
-  amount: "0",
+  max: "",
+  amount: "",
 };
 
 const CreateReferralModal = ({ isOpen, onClose, onAddCode }) => {
@@ -49,8 +49,9 @@ const CreateReferralModal = ({ isOpen, onClose, onAddCode }) => {
         ...formData,
         code: generateCode(),
         created: formatDate(new Date()),
+        status: "Active",
+        used: 0,
       };
-
       onAddCode?.(payload);
       onClose?.();
       resetForm();
@@ -130,8 +131,8 @@ const CreateReferralModal = ({ isOpen, onClose, onAddCode }) => {
                 onChange={handleChange}
                 className="block w-full px-3 py-2 border rounded-md border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="Percentage">Teacher</option>
-                <option value="Fixed">Student</option>
+                <option value="Teacher">Teacher</option>
+                <option value="Student">Student</option>
               </select>
             </div>
 
@@ -142,7 +143,7 @@ const CreateReferralModal = ({ isOpen, onClose, onAddCode }) => {
               <input
                 name="max"
                 type="number"
-                min="5"
+                min="1"
                 value={formData.max}
                 onChange={handleChange}
                 className="block w-full px-3 py-2 border rounded-md border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
